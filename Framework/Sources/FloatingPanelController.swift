@@ -18,6 +18,7 @@ public protocol FloatingPanelControllerDelegate: class {
 
     /// Asks the delegate if dragging should begin by the pan gesture recognizer.
     func floatingPanelShouldBeginDragging(_ vc: FloatingPanelController) -> Bool
+    func floatingPanel(_ vc: FloatingPanelController, shouldPinScrollView scrollView: UIScrollView) -> (shouldPin: Bool, to: CGPoint?)
 
     func floatingPanelDidMove(_ vc: FloatingPanelController) // any surface frame changes in dragging
 
@@ -59,6 +60,10 @@ public extension FloatingPanelControllerDelegate {
     func floatingPanelShouldBeginDragging(_ vc: FloatingPanelController) -> Bool {
         return true
     }
+
+    func floatingPanel(_ vc: FloatingPanelController, shouldPinScrollView: UIScrollView) -> (shouldPin: Bool, to: CGPoint?) {
+        return (true, nil)
+    }
     func floatingPanelDidMove(_ vc: FloatingPanelController) {}
     func floatingPanelWillBeginDragging(_ vc: FloatingPanelController) {}
     func floatingPanelDidEndDragging(_ vc: FloatingPanelController, withVelocity velocity: CGPoint, targetPosition: FloatingPanelPosition) {}
@@ -71,6 +76,7 @@ public extension FloatingPanelControllerDelegate {
     func floatingPanel(_ vc: FloatingPanelController, shouldRecognizeSimultaneouslyWith gestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
     }
+    
     func floatingPanel(_ vc: FloatingPanelController, contentOffsetForPinning trackedScrollView: UIScrollView) -> CGPoint {
         return CGPoint(x: 0.0, y: 0.0 - trackedScrollView.contentInset.top)
     }
