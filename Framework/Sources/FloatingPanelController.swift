@@ -46,6 +46,11 @@ public protocol FloatingPanelControllerDelegate: class {
     ///
     /// This method will not be called if the controller doesn't track any scroll view.
     func floatingPanel(_ vc: FloatingPanelController, contentOffsetForPinning trackedScrollView: UIScrollView) -> CGPoint
+
+    /// Asks the delegate if it should pin the scrollView.
+    /// Bool: should pin
+    /// CGPoint?: Pinned at contentOffset
+    func floatingPanel(_ vc: FloatingPanelController, shouldPinScrollView scrollView: UIScrollView) -> (Bool, CGPoint?)
 }
 
 public extension FloatingPanelControllerDelegate {
@@ -59,6 +64,7 @@ public extension FloatingPanelControllerDelegate {
     func floatingPanelShouldBeginDragging(_ vc: FloatingPanelController) -> Bool {
         return true
     }
+
     func floatingPanelDidMove(_ vc: FloatingPanelController) {}
     func floatingPanelWillBeginDragging(_ vc: FloatingPanelController) {}
     func floatingPanelDidEndDragging(_ vc: FloatingPanelController, withVelocity velocity: CGPoint, targetPosition: FloatingPanelPosition) {}
@@ -71,8 +77,13 @@ public extension FloatingPanelControllerDelegate {
     func floatingPanel(_ vc: FloatingPanelController, shouldRecognizeSimultaneouslyWith gestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
     }
+    
     func floatingPanel(_ vc: FloatingPanelController, contentOffsetForPinning trackedScrollView: UIScrollView) -> CGPoint {
         return CGPoint(x: 0.0, y: 0.0 - trackedScrollView.contentInset.top)
+    }
+
+    func floatingPanel(_ vc: FloatingPanelController, shouldPinScrollView: UIScrollView) -> (Bool, CGPoint?) {
+        return (true, nil)
     }
 }
 

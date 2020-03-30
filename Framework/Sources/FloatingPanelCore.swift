@@ -302,6 +302,16 @@ class FloatingPanelCore: NSObject, UIGestureRecognizerDelegate {
         switch panGesture {
         case scrollView?.panGestureRecognizer:
             guard let scrollView = scrollView else { return }
+            guard let vc = viewcontroller else { return }
+
+            let (shouldPin, to) = vc.delegate?.floatingPanel(vc, shouldPinScrollView: scrollView) ?? (true, nil)
+            guard shouldPin else {
+                return
+            }
+
+            if let pinnedContentOffset = to {
+                initialScrollOffset = pinnedContentOffset
+            }
 
             let location = panGesture.location(in: surfaceView)
 
